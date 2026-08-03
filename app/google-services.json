@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "833217812900",
+    "project_id": "aluminiossamgui",
+    "storage_bucket": "aluminiossamgui.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:833217812900:android:bd0ceabd4e22e964a64931",
+        "android_client_info": {
+          "package_name": "edu.ucne.aluminiossamgui"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "833217812900-jhgij85unrf77vguhndk02b5u6ior7n2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "edu.ucne.aluminiossamgui",
+            "certificate_hash": "99fb3cd6dc5bbb6343b2bef2e83f579b6d9a135b"
+          }
+        },
+        {
+          "client_id": "833217812900-vs0ni5fqsq01ka762mb6tr56p5lvfdk6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAfOsEpAw84xILW7D6BclnDOiYA45YnU_s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "833217812900-vs0ni5fqsq01ka762mb6tr56p5lvfdk6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
