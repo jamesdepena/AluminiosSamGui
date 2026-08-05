@@ -15,6 +15,7 @@ composeBom = "2026.06.01"
 lifecycleViewmodelNavigation3 = "VERSION_LIFECYCLE"
 materialIconsExtendedVersion = "1.7.8"
 navigation3Runtime = "1.2.0-alpha07"
+robolectric = "4.16.1"
 roomRuntime = "2.8.4"
 credentials = "1.6.0"
 firebaseBom = "34.17.0"
@@ -54,6 +55,7 @@ firebase-auth = { module = "com.google.firebase:firebase-auth" }
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
 googleid = { module = "com.google.android.libraries.identity.googleid:googleid", version.ref = "googleid" }
 kotlinx-coroutines-play-services = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-play-services", version.ref = "kotlinxCoroutinesPlayServices" }
+robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectric" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
