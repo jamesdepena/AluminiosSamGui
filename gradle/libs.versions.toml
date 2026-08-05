@@ -12,6 +12,7 @@ activityCompose = "1.13.0"
 kotlin = "2.4.10"
 ksp = "2.3.7"
 composeBom = "2026.06.01"
+lifecycleViewmodelNavigation3 = "VERSION_LIFECYCLE"
 materialIconsExtendedVersion = "1.7.8"
 navigation3Runtime = "1.2.0-alpha07"
 roomRuntime = "2.8.4"
@@ -24,6 +25,7 @@ googleServices = "4.5.0"
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltNavigationCompose" }
+androidx-lifecycle-viewmodel-navigation3 = { module = "androidx.lifecycle:lifecycle-viewmodel-navigation3", version.ref = "lifecycleViewmodelNavigation3" }
 androidx-material-icons-extended = { module = "androidx.compose.material:material-icons-extended", version.ref = "materialIconsExtendedVersion" }
 androidx-navigation3-runtime = { module = "androidx.navigation3:navigation3-runtime", version.ref = "navigation3Runtime" }
 androidx-navigation3-ui = { module = "androidx.navigation3:navigation3-ui", version.ref = "navigation3Runtime" }
