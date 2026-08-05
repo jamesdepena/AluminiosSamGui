@@ -46,6 +46,11 @@ android {
     room {
         schemaDirectory("$projectDir/schemas")
     }
+    testOptions {
+        unitTests {
+            isIncludeAndroidResources = true
+        }
+    }
 }
 
 dependencies {
@@ -88,6 +93,10 @@ dependencies {
     implementation(libs.androidx.credentials)
     implementation(libs.androidx.credentials.play.services.auth)
     implementation(libs.googleid)
+
+    //Robelectric
+    testImplementation(libs.junit)
+    testImplementation(libs.robolectric)
 
     testImplementation(libs.junit)
     androidTestImplementation(platform(libs.androidx.compose.bom))
