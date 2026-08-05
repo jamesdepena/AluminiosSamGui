@@ -97,6 +97,9 @@ dependencies {
     //Robelectric
     testImplementation(libs.junit)
     testImplementation(libs.robolectric)
+    //Turbine
+    testImplementation(libs.turbine)
+    testImplementation(libs.kotlinx.coroutines.test)
 
     testImplementation(libs.junit)
     androidTestImplementation(platform(libs.androidx.compose.bom))
