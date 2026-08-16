@@ -23,9 +23,9 @@ class ListHuecoViewModel @Inject constructor(
 
     fun onEvent(event: ListHuecoUiEvent) {
         when (event) {
-            is ListHuecoUiEvent.Load -> { load(event.casaId) }
-            is ListHuecoUiEvent.FiltroChanged -> {
-                _state.update { it.copy(filtro = event.value) }
+            is ListHuecoUiEvent.Load -> load(event.casaId)
+            is ListHuecoUiEvent.FiltroChanged -> _state.update {
+                it.copy(filtro = event.value)
             }
             is ListHuecoUiEvent.Edit -> Unit
             is ListHuecoUiEvent.CreateNew -> Unit

@@ -50,10 +50,10 @@ fun ListCasaScreen(
         state = state,
         onEvent = { event ->
             when (event) {
-                is ListCasaUiEvent.CreateNew -> { createCasa() }
-                is ListCasaUiEvent.Edit -> { goToCasa(event.id) }
-                is ListCasaUiEvent.OpenHuecos -> { goToHuecos(event.casaId) }
-                else -> { viewModel.onEvent(event) }
+                is ListCasaUiEvent.CreateNew -> createCasa()
+                is ListCasaUiEvent.Edit -> goToCasa(event.id)
+                is ListCasaUiEvent.OpenHuecos -> goToHuecos(event.casaId)
+                else -> viewModel.onEvent(event)
             }
         }
     )

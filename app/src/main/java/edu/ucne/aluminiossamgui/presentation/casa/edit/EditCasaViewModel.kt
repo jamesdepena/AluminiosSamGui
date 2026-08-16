@@ -28,19 +28,19 @@ class EditCasaViewModel @Inject constructor(
 
     fun onEvent(event: EditCasaUiEvent) {
         when (event) {
-            is EditCasaUiEvent.Load -> { onLoad(event.id) }
-            is EditCasaUiEvent.NombreChanged -> { onNombreChanged(event.value) }
-            is EditCasaUiEvent.DireccionChanged -> {
-                _state.update { it.copy(direccion = event.value) }
+            is EditCasaUiEvent.Load -> onLoad(event.id)
+            is EditCasaUiEvent.NombreChanged -> onNombreChanged(event.value)
+            is EditCasaUiEvent.DireccionChanged -> _state.update {
+                it.copy(direccion = event.value)
             }
-            is EditCasaUiEvent.Save -> { onSave() }
-            is EditCasaUiEvent.ShowDeleteDialog -> {
-                _state.update { it.copy(showDeleteDialog = true) }
+            is EditCasaUiEvent.Save -> onSave()
+            is EditCasaUiEvent.ShowDeleteDialog -> _state.update {
+                it.copy(showDeleteDialog = true)
             }
-            is EditCasaUiEvent.DismissDeleteDialog -> {
-                _state.update { it.copy(showDeleteDialog = false) }
+            is EditCasaUiEvent.DismissDeleteDialog -> _state.update {
+                it.copy(showDeleteDialog = false)
             }
-            is EditCasaUiEvent.Delete -> { onDelete() }
+            is EditCasaUiEvent.Delete -> onDelete()
         }
     }
 

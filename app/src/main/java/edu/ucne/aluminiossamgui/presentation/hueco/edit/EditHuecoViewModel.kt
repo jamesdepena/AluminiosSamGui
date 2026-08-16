@@ -35,7 +35,7 @@ class EditHuecoViewModel @Inject constructor(
 
     fun onEvent(event: EditHuecoUiEvent) {
         when (event) {
-            is EditHuecoUiEvent.Load -> { onLoad(event.casaId, event.huecoId) }
+            is EditHuecoUiEvent.Load -> onLoad(event.casaId, event.huecoId)
             is EditHuecoUiEvent.EtiquetaChanged -> {
                 val validation = huecoValidations.validateEtiqueta(event.value)
 
@@ -43,23 +43,28 @@ class EditHuecoViewModel @Inject constructor(
                     it.copy(etiqueta = event.value, etiquetaError = validation.errorMsg)
                 }
             }
-            is EditHuecoUiEvent.TipoChanged -> { onTipoChanged(event.value) }
+
+            is EditHuecoUiEvent.TipoChanged -> onTipoChanged(event.value)
             is EditHuecoUiEvent.AnchoBaseChanged -> {
                 _state.update { it.copy(anchoBase = event.value, anchoBaseError = null) }
                 updateCalculations()
             }
+
             is EditHuecoUiEvent.LargoBaseChanged -> {
                 _state.update { it.copy(largoBase = event.value, largoBaseError = null) }
                 updateCalculations()
             }
+
             is EditHuecoUiEvent.TipoMaterialChanged -> {
                 _state.update { it.copy(tipoMaterial = event.value) }
                 updateCalculations()
             }
+
             is EditHuecoUiEvent.TresViasChanged -> {
                 _state.update { it.copy(esTresVias = event.value) }
                 updateCalculations()
             }
+
             is EditHuecoUiEvent.ColorChanged -> {
                 _state.update {
                     it.copy(
@@ -73,22 +78,28 @@ class EditHuecoViewModel @Inject constructor(
                     )
                 }
             }
-            is EditHuecoUiEvent.ColorPersonalizadoChanged -> {
-                _state.update { it.copy(colorPersonalizado = event.value) }
+
+            is EditHuecoUiEvent.ColorPersonalizadoChanged -> _state.update {
+                it.copy(colorPersonalizado = event.value)
             }
-            is EditHuecoUiEvent.AnchoPuertaChanged -> {
-                _state.update { it.copy(anchoPuerta = event.value) }
+
+            is EditHuecoUiEvent.AnchoPuertaChanged -> _state.update {
+                it.copy(anchoPuerta = event.value)
             }
-            is EditHuecoUiEvent.AcabadoPuertaChanged -> {
-                _state.update { it.copy(acabadoPuerta = event.value) }
+
+            is EditHuecoUiEvent.AcabadoPuertaChanged -> _state.update {
+                it.copy(acabadoPuerta = event.value)
             }
+
             is EditHuecoUiEvent.Save -> onSave()
-            is EditHuecoUiEvent.ShowDeleteDialog -> {
-                _state.update { it.copy(showDeleteDialog = true) }
+            is EditHuecoUiEvent.ShowDeleteDialog -> _state.update {
+                it.copy(showDeleteDialog = true)
             }
-            is EditHuecoUiEvent.DismissDeleteDialog -> {
-                _state.update { it.copy(showDeleteDialog = false) }
+
+            is EditHuecoUiEvent.DismissDeleteDialog -> _state.update {
+                it.copy(showDeleteDialog = false)
             }
+
             is EditHuecoUiEvent.Delete -> onDelete()
         }
     }
@@ -176,8 +187,7 @@ class EditHuecoViewModel @Inject constructor(
                     tipoMaterial = hueco.tipoMaterial,
                     esTresVias = hueco.esTresVias,
                     color = hueco.color,
-                    colorPersonalizado =
-                        hueco.colorPersonalizado ?: "",
+                    colorPersonalizado = hueco.colorPersonalizado ?: "",
                     anchoPuerta = hueco.anchoPuerta,
                     acabadoPuerta = hueco.acabadoPuerta,
                     isNew = false
@@ -269,10 +279,8 @@ class EditHuecoViewModel @Inject constructor(
     }
 
     private fun updateCalculations() {
-        val ancho = _state.value.anchoBase.toDoubleOrNull()
-            ?: return
-        val largo = _state.value.largoBase.toDoubleOrNull()
-            ?: return
+        val ancho = _state.value.anchoBase.toDoubleOrNull() ?: return
+        val largo = _state.value.largoBase.toDoubleOrNull() ?: return
 
         if (ancho <= 0.0 || largo <= 0.0) {
             return
@@ -282,10 +290,8 @@ class EditHuecoViewModel @Inject constructor(
 
         _state.update {
             it.copy(
-                corteCorredera =
-                    calcularCorteCorrederaUseCase(hueco),
-                corteCristalFijo =
-                    calcularCorteCristalFijoUseCase(hueco)
+                corteCorredera = calcularCorteCorrederaUseCase(hueco),
+                corteCristalFijo = calcularCorteCristalFijoUseCase(hueco)
             )
         }
     }

@@ -162,11 +162,9 @@ fun EditCasaBody(
                             OutlinedButton(
                                 onClick = { onEvent(EditCasaUiEvent.ShowDeleteDialog) },
                                 enabled = !state.isSaving && !state.isDeleting,
-                                colors =
-                                    ButtonDefaults.outlinedButtonColors(
-                                        contentColor =
-                                            MaterialTheme.colorScheme.error
-                                    )
+                                colors = ButtonDefaults.outlinedButtonColors(
+                                    contentColor = MaterialTheme.colorScheme.error
+                                )
                             ) {
                                 Icon(imageVector = Icons.Default.Delete, contentDescription = null)
 

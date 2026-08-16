@@ -25,9 +25,9 @@ class ListCasaViewModel @Inject constructor(
 
     fun onEvent(event: ListCasaUiEvent) {
         when (event) {
-            is ListCasaUiEvent.Load -> { observeCasas() }
-            is ListCasaUiEvent.FiltroNombreChanged -> {
-                _state.update { it.copy(filtroNombre = event.value) }
+            is ListCasaUiEvent.Load -> observeCasas()
+            is ListCasaUiEvent.FiltroNombreChanged -> _state.update {
+                it.copy(filtroNombre = event.value)
             }
             is ListCasaUiEvent.Edit -> Unit
             is ListCasaUiEvent.OpenHuecos -> Unit
