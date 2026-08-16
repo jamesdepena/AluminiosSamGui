@@ -5,7 +5,7 @@ import edu.ucne.aluminiossamgui.data.mapper.toDomain
 import edu.ucne.aluminiossamgui.data.mapper.toEntity
 import edu.ucne.aluminiossamgui.domain.model.Hueco
 import edu.ucne.aluminiossamgui.domain.repository.HuecoRepository
-import javax.inject.Inject
+import jakarta.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 

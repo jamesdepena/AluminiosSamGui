@@ -1,7 +1,7 @@
 package edu.ucne.aluminiossamgui.domain.usecase.hueco
 
 import edu.ucne.aluminiossamgui.domain.repository.HuecoRepository
-import javax.inject.Inject
+import jakarta.inject.Inject
 
 class DeleteHuecoUseCase @Inject constructor(
     private val repository: HuecoRepository

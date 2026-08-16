@@ -14,7 +14,7 @@ import edu.ucne.aluminiossamgui.data.repository.CasaRepositoryImpl
 import edu.ucne.aluminiossamgui.data.repository.HuecoRepositoryImpl
 import edu.ucne.aluminiossamgui.domain.repository.CasaRepository
 import edu.ucne.aluminiossamgui.domain.repository.HuecoRepository
-import javax.inject.Singleton
+import jakarta.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)

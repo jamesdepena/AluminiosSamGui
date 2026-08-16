@@ -3,7 +3,7 @@ package edu.ucne.aluminiossamgui.domain.usecase.hueco
 import edu.ucne.aluminiossamgui.domain.model.Hueco
 import edu.ucne.aluminiossamgui.domain.repository.HuecoRepository
 import kotlinx.coroutines.flow.Flow
-import javax.inject.Inject
+import jakarta.inject.Inject
 
 class ObserveHuecosByCasaIdUseCase @Inject constructor(
     private val repository: HuecoRepository

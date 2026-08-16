@@ -1,7 +1,7 @@
 package edu.ucne.aluminiossamgui.domain.usecase.casa
 
 import edu.ucne.aluminiossamgui.domain.usecase.ValidationResult
-import javax.inject.Inject
+import jakarta.inject.Inject
 
 class CasaValidations @Inject constructor() {
 

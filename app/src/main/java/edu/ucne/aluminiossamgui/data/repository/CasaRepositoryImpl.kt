@@ -5,7 +5,7 @@ import edu.ucne.aluminiossamgui.data.mapper.toDomain
 import edu.ucne.aluminiossamgui.data.mapper.toEntity
 import edu.ucne.aluminiossamgui.domain.model.Casa
 import edu.ucne.aluminiossamgui.domain.repository.CasaRepository
-import javax.inject.Inject
+import jakarta.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 

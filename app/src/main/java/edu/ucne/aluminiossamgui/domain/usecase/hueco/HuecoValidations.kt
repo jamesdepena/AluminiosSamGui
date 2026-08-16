@@ -5,7 +5,7 @@ import edu.ucne.aluminiossamgui.domain.model.Hueco
 import edu.ucne.aluminiossamgui.domain.model.TipoHueco
 import edu.ucne.aluminiossamgui.domain.model.TipoMaterial
 import edu.ucne.aluminiossamgui.domain.usecase.ValidationResult
-import javax.inject.Inject
+import jakarta.inject.Inject
 
 class HuecoValidations @Inject constructor() {
 

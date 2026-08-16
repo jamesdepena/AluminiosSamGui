@@ -1,7 +1,7 @@
 package edu.ucne.aluminiossamgui.domain.usecase.casa
 
 import edu.ucne.aluminiossamgui.domain.repository.CasaRepository
-import javax.inject.Inject
+import jakarta.inject.Inject
 
 class DeleteCasaUseCase @Inject constructor(
     private val repository: CasaRepository

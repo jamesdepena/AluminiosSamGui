@@ -3,7 +3,7 @@ package edu.ucne.aluminiossamgui.domain.usecase.hueco
 import edu.ucne.aluminiossamgui.domain.model.CorteCristalFijo
 import edu.ucne.aluminiossamgui.domain.model.Hueco
 import edu.ucne.aluminiossamgui.domain.model.TipoHueco
-import javax.inject.Inject
+import jakarta.inject.Inject
 
 class CalcularCorteCristalFijoUseCase @Inject constructor() {
 
