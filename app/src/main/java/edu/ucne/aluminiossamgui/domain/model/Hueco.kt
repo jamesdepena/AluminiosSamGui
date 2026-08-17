@@ -2,7 +2,7 @@ package edu.ucne.aluminiossamgui.domain.model
 
 data class Hueco(
     val huecoId: Int = 0,
-    val casaId: Int,
+    val trabajoId: Int,
     val etiqueta: String,
     val tipo: TipoHueco,
     val anchoBase: Double,

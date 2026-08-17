@@ -3,10 +3,10 @@ package edu.ucne.aluminiossamgui.data.local.entity
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "Casas")
-data class CasaEntity(
+@Entity(tableName = "Trabajos")
+data class TrabajoEntity(
     @PrimaryKey(autoGenerate = true)
-    val casaId: Int = 0,
+    val trabajoId: Int = 0,
     val nombre: String,
     val direccion: String? = null
 )

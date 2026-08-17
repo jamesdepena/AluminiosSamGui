@@ -1,4 +1,4 @@
-package edu.ucne.aluminiossamgui.presentation.casa.list
+package edu.ucne.aluminiossamgui.presentation.trabajo.list
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -35,24 +35,24 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import edu.ucne.aluminiossamgui.domain.model.Casa
+import edu.ucne.aluminiossamgui.domain.model.Trabajo
 
 @Composable
-fun ListCasaScreen(
-    viewModel: ListCasaViewModel = hiltViewModel(),
-    createCasa: () -> Unit,
-    goToCasa: (Int) -> Unit,
+fun ListTrabajoScreen(
+    viewModel: ListTrabajoViewModel = hiltViewModel(),
+    createTrabajo: () -> Unit,
+    goToTrabajo: (Int) -> Unit,
     goToHuecos: (Int) -> Unit
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
-    ListCasaBody(
+    ListTrabajoBody(
         state = state,
         onEvent = { event ->
             when (event) {
-                is ListCasaUiEvent.CreateNew -> createCasa()
-                is ListCasaUiEvent.Edit -> goToCasa(event.id)
-                is ListCasaUiEvent.OpenHuecos -> goToHuecos(event.casaId)
+                is ListTrabajoUiEvent.CreateNew -> createTrabajo()
+                is ListTrabajoUiEvent.Edit -> goToTrabajo(event.id)
+                is ListTrabajoUiEvent.OpenHuecos -> goToHuecos(event.trabajoId)
                 else -> viewModel.onEvent(event)
             }
         }
@@ -61,21 +61,21 @@ fun ListCasaScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ListCasaBody(
-    state: ListCasaUiState,
-    onEvent: (ListCasaUiEvent) -> Unit
+fun ListTrabajoBody(
+    state: ListTrabajoUiState,
+    onEvent: (ListTrabajoUiEvent) -> Unit
 ) {
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
-                title = { Text("Mis Casas") }
+                title = { Text("Trabajos") }
             )
         },
         floatingActionButton = {
             FloatingActionButton(
-                onClick = { onEvent(ListCasaUiEvent.CreateNew) }
+                onClick = { onEvent(ListTrabajoUiEvent.CreateNew) }
             ) {
-                Icon(imageVector = Icons.Default.Add, contentDescription = "Crear casa")
+                Icon(imageVector = Icons.Default.Add, contentDescription = "Crear trabajo")
             }
         }
     ) { padding ->
@@ -92,7 +92,7 @@ fun ListCasaBody(
         ) {
             OutlinedTextField(
                 value = state.filtroNombre,
-                onValueChange = { onEvent(ListCasaUiEvent.FiltroNombreChanged(it)) },
+                onValueChange = { onEvent(ListTrabajoUiEvent.FiltroNombreChanged(it)) },
                 label = { Text("Filtrar por nombre") },
                 modifier = Modifier.fillMaxWidth(),
                 singleLine = true
@@ -108,7 +108,7 @@ fun ListCasaBody(
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
-                        text = "No hay casas registradas.",
+                        text = "No hay trabajos registrados.",
                         style = MaterialTheme.typography.bodyLarge
                     )
                 }
@@ -119,12 +119,12 @@ fun ListCasaBody(
                 ) {
                     items(
                         items = state.filtradas,
-                        key = { casa -> casa.casaId }
-                    ) { casa ->
-                        CasaItem(
-                            casa = casa,
-                            onOpenHuecos = { onEvent(ListCasaUiEvent.OpenHuecos(casa.casaId)) },
-                            onEdit = { onEvent(ListCasaUiEvent.Edit(casa.casaId)) }
+                        key = { trabajo -> trabajo.trabajoId }
+                    ) { trabajo ->
+                        TrabajoItem(
+                            trabajo = trabajo,
+                            onOpenHuecos = { onEvent(ListTrabajoUiEvent.OpenHuecos(trabajo.trabajoId)) },
+                            onEdit = { onEvent(ListTrabajoUiEvent.Edit(trabajo.trabajoId)) }
                         )
                     }
                 }
@@ -135,7 +135,7 @@ fun ListCasaBody(
             )
 
             Text(
-                text = "Total de casas: ${state.totalCasas}",
+                text = "Total de trabajos: ${state.totalTrabajos}",
                 style = MaterialTheme.typography.bodyMedium,
                 fontWeight = FontWeight.SemiBold
             )
@@ -144,8 +144,8 @@ fun ListCasaBody(
 }
 
 @Composable
-fun CasaItem(
-    casa: Casa,
+fun TrabajoItem(
+    trabajo: Trabajo,
     onOpenHuecos: () -> Unit,
     onEdit: () -> Unit
 ) {
@@ -170,14 +170,14 @@ fun CasaItem(
                 modifier = Modifier.weight(1f)
             ) {
                 Text(
-                    text = casa.nombre,
+                    text = trabajo.nombre,
                     style = MaterialTheme.typography.titleSmall,
                     fontWeight = FontWeight.Bold
                 )
 
-                if (!casa.direccion.isNullOrBlank()) {
+                if (!trabajo.direccion.isNullOrBlank()) {
                     Text(
-                        text = casa.direccion,
+                        text = trabajo.direccion,
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -195,7 +195,7 @@ fun CasaItem(
             ) {
                 Icon(
                     imageVector = Icons.Default.Edit,
-                    contentDescription = "Editar casa"
+                    contentDescription = "Editar trabajo"
                 )
             }
         }

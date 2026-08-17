@@ -1,15 +1,15 @@
-package edu.ucne.aluminiossamgui.domain.usecase.casa
+package edu.ucne.aluminiossamgui.domain.usecase.trabajo
 
 import edu.ucne.aluminiossamgui.domain.usecase.ValidationResult
 import jakarta.inject.Inject
 
-class CasaValidations @Inject constructor() {
+class TrabajoValidations @Inject constructor() {
 
     fun validateNombre(nombre: String): ValidationResult {
         if (nombre.isBlank()) {
             return ValidationResult(
                 isValid = false,
-                errorMsg = "El nombre de la casa no puede estar vacío."
+                errorMsg = "El nombre del trabajo no puede estar vacío."
             )
         }
 

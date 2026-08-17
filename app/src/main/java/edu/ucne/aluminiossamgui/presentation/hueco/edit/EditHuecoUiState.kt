@@ -9,7 +9,7 @@ import edu.ucne.aluminiossamgui.domain.model.TipoHueco
 import edu.ucne.aluminiossamgui.domain.model.TipoMaterial
 
 data class EditHuecoUiState(
-    val casaId: Int = 0,
+    val trabajoId: Int = 0,
     val huecoId: Int? = null,
 
     val etiqueta: String = "",

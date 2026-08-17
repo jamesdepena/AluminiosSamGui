@@ -5,10 +5,10 @@ import edu.ucne.aluminiossamgui.domain.repository.HuecoRepository
 import kotlinx.coroutines.flow.Flow
 import jakarta.inject.Inject
 
-class ObserveHuecosByCasaIdUseCase @Inject constructor(
+class ObserveHuecosByTrabajoIdUseCase @Inject constructor(
     private val repository: HuecoRepository
 ) {
-    operator fun invoke(casaId: Int): Flow<List<Hueco>> {
-        return repository.observeByCasaId(casaId)
+    operator fun invoke(trabajoId: Int): Flow<List<Hueco>> {
+        return repository.observeByTrabajoId(trabajoId)
     }
 }

@@ -40,26 +40,26 @@ import edu.ucne.aluminiossamgui.domain.model.TipoHueco
 
 @Composable
 fun ListHuecoScreen(
-    casaId: Int,
+    trabajoId: Int,
     viewModel: ListHuecoViewModel = hiltViewModel(),
     onBack: () -> Unit,
     createHueco: (Int) -> Unit,
     goToHueco: (Int, Int) -> Unit,
-    editCasa: (Int) -> Unit
+    editTrabajo: (Int) -> Unit
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
-    LaunchedEffect(casaId) {
-        viewModel.onEvent(ListHuecoUiEvent.Load(casaId))
+    LaunchedEffect(trabajoId) {
+        viewModel.onEvent(ListHuecoUiEvent.Load(trabajoId))
     }
 
     ListHuecoBody(
         state = state,
         onEvent = { event ->
             when (event) {
-                is ListHuecoUiEvent.CreateNew -> { createHueco(casaId) }
-                is ListHuecoUiEvent.Edit -> { goToHueco(casaId, event.id) }
-                is ListHuecoUiEvent.EditCasa -> { editCasa(casaId) }
+                is ListHuecoUiEvent.CreateNew -> { createHueco(trabajoId) }
+                is ListHuecoUiEvent.Edit -> { goToHueco(trabajoId, event.id) }
+                is ListHuecoUiEvent.EditTrabajo -> { editTrabajo(trabajoId) }
                 else -> { viewModel.onEvent(event) }
             }
         },
@@ -77,7 +77,7 @@ fun ListHuecoBody(
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
-                title = { Text(state.nombreCasa) },
+                title = { Text(state.nombreTrabajo) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
                         Icon(imageVector = Icons.Default.ArrowBack, contentDescription = "Regresar")
@@ -85,9 +85,9 @@ fun ListHuecoBody(
                 },
                 actions = {
                     IconButton(
-                        onClick = { onEvent(ListHuecoUiEvent.EditCasa) }
+                        onClick = { onEvent(ListHuecoUiEvent.EditTrabajo) }
                     ) {
-                        Icon(imageVector = Icons.Default.Edit, contentDescription = "Editar casa")
+                        Icon(imageVector = Icons.Default.Edit, contentDescription = "Editar trabajo")
                     }
                 }
             )
@@ -129,7 +129,7 @@ fun ListHuecoBody(
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
-                        text = "Esta casa no tiene huecos registrados.",
+                        text = "Este trabajo no tiene huecos registrados.",
                         style = MaterialTheme.typography.bodyLarge
                     )
                 }

@@ -1,4 +1,4 @@
-package edu.ucne.aluminiossamgui.presentation.casa.edit
+package edu.ucne.aluminiossamgui.presentation.trabajo.edit
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -34,15 +34,15 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 
 @Composable
-fun EditCasaScreen(
-    casaId: Int?,
-    viewModel: EditCasaViewModel = hiltViewModel(),
+fun EditTrabajoScreen(
+    trabajo: Int?,
+    viewModel: EditTrabajoViewModel = hiltViewModel(),
     onBack: () -> Unit
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
-    LaunchedEffect(casaId) {
-        viewModel.onEvent(EditCasaUiEvent.Load(casaId))
+    LaunchedEffect(trabajo) {
+        viewModel.onEvent(EditTrabajoUiEvent.Load(trabajo))
     }
 
     LaunchedEffect(state.saved, state.deleted) {
@@ -51,7 +51,7 @@ fun EditCasaScreen(
         }
     }
 
-    EditCasaBody(
+    EditTrabajoBody(
         state = state,
         onEvent = viewModel::onEvent,
         onBack = onBack
@@ -60,28 +60,28 @@ fun EditCasaScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun EditCasaBody(
-    state: EditCasaUiState,
-    onEvent: (EditCasaUiEvent) -> Unit,
+fun EditTrabajoBody(
+    state: EditTrabajoUiState,
+    onEvent: (EditTrabajoUiEvent) -> Unit,
     onBack: () -> Unit
 ) {
     if (state.showDeleteDialog) {
         AlertDialog(
             onDismissRequest = {
-                onEvent(EditCasaUiEvent.DismissDeleteDialog)
+                onEvent(EditTrabajoUiEvent.DismissDeleteDialog)
             },
-            title = { Text("Eliminar casa") },
+            title = { Text("Eliminar trabajo") },
             text = {
-                Text("¿Deseas eliminar esta casa? También se eliminarán todos sus huecos.")
+                Text("¿Deseas eliminar este trabajo? También se eliminarán todos sus huecos.")
             },
             confirmButton = {
-                TextButton(onClick = { onEvent(EditCasaUiEvent.Delete) }) {
+                TextButton(onClick = { onEvent(EditTrabajoUiEvent.Delete) }) {
                     Text(text = "Eliminar", color = MaterialTheme.colorScheme.error)
                 }
             },
             dismissButton = {
                 TextButton(
-                    onClick = { onEvent(EditCasaUiEvent.DismissDeleteDialog) }
+                    onClick = { onEvent(EditTrabajoUiEvent.DismissDeleteDialog) }
                 ) {
                     Text("Cancelar")
                 }
@@ -92,7 +92,7 @@ fun EditCasaBody(
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
-                title = { Text(if (state.isNew) { "Nueva Casa" } else { "Editar Casa" }) },
+                title = { Text(if (state.isNew) { "Nuevo Trabajo" } else { "Editar Trabajo" }) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
                         Icon(imageVector = Icons.Default.ArrowBack, contentDescription = "Regresar")
@@ -117,8 +117,8 @@ fun EditCasaBody(
                 ) {
                     OutlinedTextField(
                         value = state.nombre,
-                        onValueChange = { onEvent(EditCasaUiEvent.NombreChanged(it)) },
-                        label = { Text("Nombre de la casa") },
+                        onValueChange = { onEvent(EditTrabajoUiEvent.NombreChanged(it)) },
+                        label = { Text("Nombre del trabajo") },
                         isError = state.nombreError != null,
                         supportingText = { state.nombreError?.let { Text(it) } },
                         modifier = Modifier.fillMaxWidth(),
@@ -129,7 +129,7 @@ fun EditCasaBody(
 
                     OutlinedTextField(
                         value = state.direccion,
-                        onValueChange = { onEvent(EditCasaUiEvent.DireccionChanged(it)) },
+                        onValueChange = { onEvent(EditTrabajoUiEvent.DireccionChanged(it)) },
                         label = { Text("Dirección (opcional)") },
                         modifier = Modifier.fillMaxWidth()
                     )
@@ -151,7 +151,7 @@ fun EditCasaBody(
                         horizontalArrangement = Arrangement.SpaceEvenly
                     ) {
                         OutlinedButton(
-                            onClick = { onEvent(EditCasaUiEvent.Save) },
+                            onClick = { onEvent(EditTrabajoUiEvent.Save) },
                             enabled = !state.isSaving && !state.isDeleting
                         ) {
                             Icon(imageVector = Icons.Default.Save, contentDescription = null)
@@ -160,7 +160,7 @@ fun EditCasaBody(
 
                         if (!state.isNew) {
                             OutlinedButton(
-                                onClick = { onEvent(EditCasaUiEvent.ShowDeleteDialog) },
+                                onClick = { onEvent(EditTrabajoUiEvent.ShowDeleteDialog) },
                                 enabled = !state.isSaving && !state.isDeleting,
                                 colors = ButtonDefaults.outlinedButtonColors(
                                     contentColor = MaterialTheme.colorScheme.error

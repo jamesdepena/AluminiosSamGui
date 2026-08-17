@@ -50,15 +50,15 @@ import edu.ucne.aluminiossamgui.domain.model.TipoMaterial
 
 @Composable
 fun EditHuecoScreen(
-    casaId: Int,
+    trabajoId: Int,
     huecoId: Int,
     viewModel: EditHuecoViewModel = hiltViewModel(),
     onBack: () -> Unit
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
-    LaunchedEffect(casaId, huecoId) {
-        viewModel.onEvent(EditHuecoUiEvent.Load(casaId = casaId, huecoId = huecoId))
+    LaunchedEffect(trabajoId, huecoId) {
+        viewModel.onEvent(EditHuecoUiEvent.Load(trabajoId = trabajoId, huecoId = huecoId))
     }
 
     LaunchedEffect(state.saved, state.deleted) {

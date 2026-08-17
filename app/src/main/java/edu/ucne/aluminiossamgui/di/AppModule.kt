@@ -7,12 +7,12 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import edu.ucne.aluminiossamgui.data.local.dao.CasaDao
+import edu.ucne.aluminiossamgui.data.local.dao.TrabajoDao
 import edu.ucne.aluminiossamgui.data.local.dao.HuecoDao
-import edu.ucne.aluminiossamgui.data.local.database.AluminiosSamGuiDatabase
-import edu.ucne.aluminiossamgui.data.repository.CasaRepositoryImpl
+import edu.ucne.aluminiossamgui.data.db.AluminiosSamGuiDatabase
+import edu.ucne.aluminiossamgui.data.repository.TrabajoRepositoryImpl
 import edu.ucne.aluminiossamgui.data.repository.HuecoRepositoryImpl
-import edu.ucne.aluminiossamgui.domain.repository.CasaRepository
+import edu.ucne.aluminiossamgui.domain.repository.TrabajoRepository
 import edu.ucne.aluminiossamgui.domain.repository.HuecoRepository
 import jakarta.inject.Singleton
 
@@ -32,8 +32,8 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideCasaDao(database: AluminiosSamGuiDatabase): CasaDao {
-        return database.casaDao()
+    fun provideTrabajoDao(database: AluminiosSamGuiDatabase): TrabajoDao {
+        return database.trabajoDao()
     }
 
     @Provides
@@ -44,13 +44,13 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideCasaRepositoryImpl(casaDao: CasaDao): CasaRepositoryImpl {
-        return CasaRepositoryImpl(casaDao)
+    fun provideTrabajoRepositoryImpl(trabajoDao: TrabajoDao): TrabajoRepositoryImpl {
+        return TrabajoRepositoryImpl(trabajoDao)
     }
 
     @Provides
     @Singleton
-    fun provideCasaRepository(impl: CasaRepositoryImpl): CasaRepository {
+    fun provideTrabajoRepository(impl: TrabajoRepositoryImpl): TrabajoRepository {
         return impl
     }
 

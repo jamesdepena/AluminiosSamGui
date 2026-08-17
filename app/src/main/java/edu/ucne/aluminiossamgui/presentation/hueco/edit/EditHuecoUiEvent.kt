@@ -7,7 +7,7 @@ import edu.ucne.aluminiossamgui.domain.model.TipoHueco
 import edu.ucne.aluminiossamgui.domain.model.TipoMaterial
 
 sealed interface EditHuecoUiEvent {
-    data class Load(val casaId: Int, val huecoId: Int) : EditHuecoUiEvent
+    data class Load(val trabajoId: Int, val huecoId: Int) : EditHuecoUiEvent
     data class EtiquetaChanged(val value: String) : EditHuecoUiEvent
     data class TipoChanged(val value: TipoHueco) : EditHuecoUiEvent
     data class AnchoBaseChanged(val value: String) : EditHuecoUiEvent

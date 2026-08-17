@@ -1,7 +1,7 @@
-package edu.ucne.aluminiossamgui.presentation.casa.edit
+package edu.ucne.aluminiossamgui.presentation.trabajo.edit
 
-data class EditCasaUiState(
-    val casaId: Int? = null,
+data class EditTrabajoUiState(
+    val trabajoId: Int? = null,
     val nombre: String = "",
     val direccion: String = "",
 

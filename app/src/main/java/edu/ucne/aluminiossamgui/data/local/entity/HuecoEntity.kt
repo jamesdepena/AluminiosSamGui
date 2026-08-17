@@ -9,20 +9,20 @@ import androidx.room.PrimaryKey
     tableName = "Huecos",
     foreignKeys = [
         ForeignKey(
-            entity = CasaEntity::class,
-            parentColumns = ["casaId"],
-            childColumns = ["casaId"],
+            entity = TrabajoEntity::class,
+            parentColumns = ["trabajoId"],
+            childColumns = ["trabajoId"],
             onDelete = ForeignKey.CASCADE
         )
     ],
     indices = [
-        Index(value = ["casaId"])
+        Index(value = ["trabajoId"])
     ]
 )
 data class HuecoEntity(
     @PrimaryKey(autoGenerate = true)
     val huecoId: Int = 0,
-    val casaId: Int,
+    val trabajoId: Int,
     val etiqueta: String,
     val tipo: String,
     val anchoBase: Double,

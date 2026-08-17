@@ -1,13 +1,13 @@
-package edu.ucne.aluminiossamgui.presentation.casa.edit
+package edu.ucne.aluminiossamgui.presentation.trabajo.edit
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import edu.ucne.aluminiossamgui.domain.model.Casa
-import edu.ucne.aluminiossamgui.domain.usecase.casa.CasaValidations
-import edu.ucne.aluminiossamgui.domain.usecase.casa.DeleteCasaUseCase
-import edu.ucne.aluminiossamgui.domain.usecase.casa.GetCasaByIdUseCase
-import edu.ucne.aluminiossamgui.domain.usecase.casa.UpsertCasaUseCase
+import edu.ucne.aluminiossamgui.domain.model.Trabajo
+import edu.ucne.aluminiossamgui.domain.usecase.trabajo.TrabajoValidations
+import edu.ucne.aluminiossamgui.domain.usecase.trabajo.DeleteTrabajoUseCase
+import edu.ucne.aluminiossamgui.domain.usecase.trabajo.GetTrabajoByIdUseCase
+import edu.ucne.aluminiossamgui.domain.usecase.trabajo.UpsertTrabajoUseCase
 import jakarta.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -16,67 +16,67 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 @HiltViewModel
-class EditCasaViewModel @Inject constructor(
-    private val casaValidations: CasaValidations,
-    private val getCasaByIdUseCase: GetCasaByIdUseCase,
-    private val upsertCasaUseCase: UpsertCasaUseCase,
-    private val deleteCasaUseCase: DeleteCasaUseCase
+class EditTrabajoViewModel @Inject constructor(
+    private val trabajoValidations: TrabajoValidations,
+    private val getTrabajoByIdUseCase: GetTrabajoByIdUseCase,
+    private val upsertTrabajoUseCase: UpsertTrabajoUseCase,
+    private val deleteTrabajoUseCase: DeleteTrabajoUseCase
 ) : ViewModel() {
 
-    private val _state = MutableStateFlow(EditCasaUiState())
-    val state: StateFlow<EditCasaUiState> = _state.asStateFlow()
+    private val _state = MutableStateFlow(EditTrabajoUiState())
+    val state: StateFlow<EditTrabajoUiState> = _state.asStateFlow()
 
-    fun onEvent(event: EditCasaUiEvent) {
+    fun onEvent(event: EditTrabajoUiEvent) {
         when (event) {
-            is EditCasaUiEvent.Load -> onLoad(event.id)
-            is EditCasaUiEvent.NombreChanged -> onNombreChanged(event.value)
-            is EditCasaUiEvent.DireccionChanged -> _state.update {
+            is EditTrabajoUiEvent.Load -> onLoad(event.id)
+            is EditTrabajoUiEvent.NombreChanged -> onNombreChanged(event.value)
+            is EditTrabajoUiEvent.DireccionChanged -> _state.update {
                 it.copy(direccion = event.value)
             }
-            is EditCasaUiEvent.Save -> onSave()
-            is EditCasaUiEvent.ShowDeleteDialog -> _state.update {
+            is EditTrabajoUiEvent.Save -> onSave()
+            is EditTrabajoUiEvent.ShowDeleteDialog -> _state.update {
                 it.copy(showDeleteDialog = true)
             }
-            is EditCasaUiEvent.DismissDeleteDialog -> _state.update {
+            is EditTrabajoUiEvent.DismissDeleteDialog -> _state.update {
                 it.copy(showDeleteDialog = false)
             }
-            is EditCasaUiEvent.Delete -> onDelete()
+            is EditTrabajoUiEvent.Delete -> onDelete()
         }
     }
 
     private fun onNombreChanged(nombre: String) {
-        val validation = casaValidations.validateNombre(nombre)
+        val validation = trabajoValidations.validateNombre(nombre)
         _state.update { it.copy(nombre = nombre, nombreError = validation.errorMsg) }
     }
 
     private fun onLoad(id: Int?) {
         if (id == null || id == 0) {
-            _state.update { EditCasaUiState(isNew = true, casaId = null) }
+            _state.update { EditTrabajoUiState(isNew = true, trabajoId = null) }
             return
         }
 
         viewModelScope.launch {
-            val casa = getCasaByIdUseCase(id)
+            val trabajo = getTrabajoByIdUseCase(id)
 
-            if (casa != null) {
+            if (trabajo != null) {
                 _state.update {
                     it.copy(
                         isNew = false,
-                        casaId = casa.casaId,
-                        nombre = casa.nombre,
-                        direccion = casa.direccion ?: ""
+                        trabajoId = trabajo.trabajoId,
+                        nombre = trabajo.nombre,
+                        direccion = trabajo.direccion ?: ""
                     )
                 }
             } else {
                 _state.update {
-                    it.copy(errorMessage = "No se encontró la casa.")
+                    it.copy(errorMessage = "No se encontró el trabajo.")
                 }
             }
         }
     }
 
     private fun onSave() {
-        val nombreValidation = casaValidations.validateNombre(_state.value.nombre)
+        val nombreValidation = trabajoValidations.validateNombre(_state.value.nombre)
 
         if (!nombreValidation.isValid) {
             _state.update { it.copy(nombreError = nombreValidation.errorMsg) }
@@ -93,13 +93,13 @@ class EditCasaViewModel @Inject constructor(
                     _state.value.direccion.trim()
                 }
 
-                val casa = Casa(
-                    casaId = _state.value.casaId ?: 0,
+                val trabajo = Trabajo(
+                    trabajoId = _state.value.trabajoId ?: 0,
                     nombre = _state.value.nombre.trim(),
                     direccion = direccion
                 )
 
-                upsertCasaUseCase(casa)
+                upsertTrabajoUseCase(trabajo)
                 _state.update { it.copy(isSaving = false, saved = true) }
 
             } catch (e: Exception) {
@@ -107,7 +107,7 @@ class EditCasaViewModel @Inject constructor(
                     it.copy(
                         isSaving = false,
                         errorMessage = e.message
-                            ?: "No se pudo guardar la casa."
+                            ?: "No se pudo guardar el trabajo."
                     )
                 }
             }
@@ -115,7 +115,7 @@ class EditCasaViewModel @Inject constructor(
     }
 
     private fun onDelete() {
-        val id = _state.value.casaId ?: return
+        val id = _state.value.trabajoId ?: return
 
         viewModelScope.launch {
             _state.update {
@@ -127,7 +127,7 @@ class EditCasaViewModel @Inject constructor(
             }
 
             try {
-                deleteCasaUseCase(id)
+                deleteTrabajoUseCase(id)
                 _state.update { it.copy(isDeleting = false, deleted = true) }
 
             } catch (e: Exception) {
@@ -135,7 +135,7 @@ class EditCasaViewModel @Inject constructor(
                     it.copy(
                         isDeleting = false,
                         errorMessage = e.message
-                            ?: "No se pudo eliminar la casa."
+                            ?: "No se pudo eliminar el trabajo."
                     )
                 }
             }

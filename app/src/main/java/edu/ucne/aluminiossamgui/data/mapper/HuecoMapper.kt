@@ -10,7 +10,7 @@ import edu.ucne.aluminiossamgui.domain.model.TipoMaterial
 
 fun HuecoEntity.toDomain() = Hueco(
         huecoId = huecoId,
-        casaId = casaId,
+        trabajoId = trabajoId,
         etiqueta = etiqueta,
         tipo = TipoHueco.valueOf(tipo),
         anchoBase = anchoBase,
@@ -33,7 +33,7 @@ fun HuecoEntity.toDomain() = Hueco(
 
 fun Hueco.toEntity() = HuecoEntity(
         huecoId = huecoId,
-        casaId = casaId,
+        trabajoId = trabajoId,
         etiqueta = etiqueta,
         tipo = tipo.name,
         anchoBase = anchoBase,

@@ -1,15 +1,15 @@
-package edu.ucne.aluminiossamgui.data.local.database
+package edu.ucne.aluminiossamgui.data.db
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import edu.ucne.aluminiossamgui.data.local.dao.CasaDao
+import edu.ucne.aluminiossamgui.data.local.dao.TrabajoDao
 import edu.ucne.aluminiossamgui.data.local.dao.HuecoDao
-import edu.ucne.aluminiossamgui.data.local.entity.CasaEntity
+import edu.ucne.aluminiossamgui.data.local.entity.TrabajoEntity
 import edu.ucne.aluminiossamgui.data.local.entity.HuecoEntity
 
 @Database(
     entities = [
-        CasaEntity::class,
+        TrabajoEntity::class,
         HuecoEntity::class
     ],
     version = 1,
@@ -17,7 +17,7 @@ import edu.ucne.aluminiossamgui.data.local.entity.HuecoEntity
 )
 abstract class AluminiosSamGuiDatabase : RoomDatabase() {
 
-    abstract fun casaDao(): CasaDao
+    abstract fun trabajoDao(): TrabajoDao
 
     abstract fun huecoDao(): HuecoDao
 }

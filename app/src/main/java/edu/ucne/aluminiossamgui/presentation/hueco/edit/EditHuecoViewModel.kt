@@ -35,7 +35,7 @@ class EditHuecoViewModel @Inject constructor(
 
     fun onEvent(event: EditHuecoUiEvent) {
         when (event) {
-            is EditHuecoUiEvent.Load -> onLoad(event.casaId, event.huecoId)
+            is EditHuecoUiEvent.Load -> onLoad(event.trabajoId, event.huecoId)
             is EditHuecoUiEvent.EtiquetaChanged -> {
                 val validation = huecoValidations.validateEtiqueta(event.value)
 
@@ -157,9 +157,9 @@ class EditHuecoViewModel @Inject constructor(
         updateCalculations()
     }
 
-    private fun onLoad(casaId: Int, huecoId: Int) {
+    private fun onLoad(trabajoId: Int, huecoId: Int) {
         if (huecoId == 0) {
-            _state.update { EditHuecoUiState(casaId = casaId, isNew = true) }
+            _state.update { EditHuecoUiState(trabajoId = trabajoId, isNew = true) }
             return
         }
 
@@ -169,7 +169,7 @@ class EditHuecoViewModel @Inject constructor(
             if (hueco == null) {
                 _state.update {
                     it.copy(
-                        casaId = casaId,
+                        trabajoId = trabajoId,
                         errorMessage = "No se encontró el hueco."
                     )
                 }
@@ -178,7 +178,7 @@ class EditHuecoViewModel @Inject constructor(
 
             _state.update {
                 it.copy(
-                    casaId = hueco.casaId,
+                    trabajoId = hueco.trabajoId,
                     huecoId = hueco.huecoId,
                     etiqueta = hueco.etiqueta,
                     tipo = hueco.tipo,
@@ -264,7 +264,7 @@ class EditHuecoViewModel @Inject constructor(
 
         return Hueco(
             huecoId = _state.value.huecoId ?: 0,
-            casaId = _state.value.casaId,
+            trabajoId = _state.value.trabajoId,
             etiqueta = _state.value.etiqueta.trim(),
             tipo = _state.value.tipo,
             anchoBase = ancho,

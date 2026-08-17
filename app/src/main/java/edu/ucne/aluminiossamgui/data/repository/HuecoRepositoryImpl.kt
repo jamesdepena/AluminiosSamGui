@@ -13,8 +13,8 @@ class HuecoRepositoryImpl @Inject constructor(
     private val huecoDao: HuecoDao
 ) : HuecoRepository {
 
-    override fun observeByCasaId(casaId: Int): Flow<List<Hueco>> {
-        return huecoDao.observeByCasaId(casaId).map { entities ->
+    override fun observeByTrabajoId(trabajoId: Int): Flow<List<Hueco>> {
+        return huecoDao.observeByTrabajoId(trabajoId).map { entities ->
             entities.map { entity -> entity.toDomain() }
         }
     }

@@ -6,14 +6,14 @@ import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
-import edu.ucne.aluminiossamgui.presentation.casa.edit.EditCasaScreen
-import edu.ucne.aluminiossamgui.presentation.casa.list.ListCasaScreen
+import edu.ucne.aluminiossamgui.presentation.trabajo.edit.EditTrabajoScreen
+import edu.ucne.aluminiossamgui.presentation.trabajo.list.ListTrabajoScreen
 import edu.ucne.aluminiossamgui.presentation.hueco.edit.EditHuecoScreen
 import edu.ucne.aluminiossamgui.presentation.hueco.list.ListHuecoScreen
 
 @Composable
 fun AppNavHost() {
-    val backStack = rememberNavBackStack(Screen.CasaList)
+    val backStack = rememberNavBackStack(Screen.TrabajoList)
 
     NavDisplay(
         backStack = backStack,
@@ -22,17 +22,17 @@ fun AppNavHost() {
             rememberViewModelStoreNavEntryDecorator()
         ),
         entryProvider = entryProvider {
-            entry<Screen.CasaList> {
-                ListCasaScreen(
-                    createCasa = { backStack.add(Screen.CasaEdit(id = null)) },
-                    goToCasa = { casaId -> backStack.add(Screen.CasaEdit(id = casaId)) },
-                    goToHuecos = { casaId -> backStack.add(Screen.HuecoList(casaId = casaId)) }
+            entry<Screen.TrabajoList> {
+                ListTrabajoScreen(
+                    createTrabajo = { backStack.add(Screen.TrabajoEdit(id = null)) },
+                    goToTrabajo = { trabajoId -> backStack.add(Screen.TrabajoEdit(id = trabajoId)) },
+                    goToHuecos = { trabajoId -> backStack.add(Screen.HuecoList(trabajoId = trabajoId)) }
                 )
             }
 
-            entry<Screen.CasaEdit> { key ->
-                EditCasaScreen(
-                    casaId = key.id,
+            entry<Screen.TrabajoEdit> { key ->
+                EditTrabajoScreen(
+                    trabajo = key.id,
                     onBack = { if (backStack.size > 1) {
                             backStack.removeAt(backStack.size - 1)
                         }
@@ -42,26 +42,26 @@ fun AppNavHost() {
 
             entry<Screen.HuecoList> { key ->
                 ListHuecoScreen(
-                    casaId = key.casaId,
+                    trabajoId = key.trabajoId,
                     onBack = { if (backStack.size > 1) {
                             backStack.removeAt(backStack.size - 1)
                         }
                     },
-                    createHueco = { casaId ->
-                        backStack.add(Screen.HuecoEdit(casaId = casaId, id = 0))
+                    createHueco = { trabajoId ->
+                        backStack.add(Screen.HuecoEdit(trabajoId = trabajoId, id = 0))
                     },
-                    goToHueco = { casaId, huecoId ->
-                        backStack.add(Screen.HuecoEdit(casaId = casaId, id = huecoId))
+                    goToHueco = { trabajoId, huecoId ->
+                        backStack.add(Screen.HuecoEdit(trabajoId = trabajoId, id = huecoId))
                     },
-                    editCasa = { casaId ->
-                        backStack.add(Screen.CasaEdit(id = casaId))
+                    editTrabajo = { trabajoId ->
+                        backStack.add(Screen.TrabajoEdit(id = trabajoId))
                     }
                 )
             }
 
             entry<Screen.HuecoEdit> { key ->
                 EditHuecoScreen(
-                    casaId = key.casaId,
+                    trabajoId = key.trabajoId,
                     huecoId = key.id,
                     onBack = {
                         if (backStack.size > 1) {

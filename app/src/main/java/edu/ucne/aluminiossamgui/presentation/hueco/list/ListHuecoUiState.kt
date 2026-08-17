@@ -4,8 +4,8 @@ import edu.ucne.aluminiossamgui.domain.model.Hueco
 import edu.ucne.aluminiossamgui.domain.model.TipoHueco
 
 data class ListHuecoUiState(
-    val casaId: Int? = null,
-    val nombreCasa: String = "",
+    val trabajoId: Int? = null,
+    val nombreTrabajo: String = "",
     val huecos: List<Hueco> = emptyList(),
     val filtro: String = ""
 ) {
