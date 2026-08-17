@@ -201,8 +201,7 @@ fun EditHuecoBody(
                         onClick = { onEvent(EditHuecoUiEvent.ShowDeleteDialog) },
                         enabled = !state.isSaving && !state.isDeleting,
                         colors = ButtonDefaults.outlinedButtonColors(
-                            contentColor =
-                                MaterialTheme.colorScheme.error
+                            contentColor = MaterialTheme.colorScheme.error
                         )
                     ) {
                         Icon(Icons.Default.Delete, contentDescription = null)
