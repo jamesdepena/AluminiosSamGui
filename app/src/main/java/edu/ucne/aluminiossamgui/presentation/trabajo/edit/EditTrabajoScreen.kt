@@ -8,6 +8,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Delete
@@ -29,20 +31,23 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusDirection
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 
 @Composable
 fun EditTrabajoScreen(
-    trabajo: Int?,
+    trabajoId: Int?,
     viewModel: EditTrabajoViewModel = hiltViewModel(),
     onBack: () -> Unit
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
-    LaunchedEffect(trabajo) {
-        viewModel.onEvent(EditTrabajoUiEvent.Load(trabajo))
+    LaunchedEffect(trabajoId) {
+        viewModel.onEvent(EditTrabajoUiEvent.Load(trabajoId))
     }
 
     LaunchedEffect(state.saved, state.deleted) {
@@ -65,6 +70,8 @@ fun EditTrabajoBody(
     onEvent: (EditTrabajoUiEvent) -> Unit,
     onBack: () -> Unit
 ) {
+    val focusManager = LocalFocusManager.current
+
     if (state.showDeleteDialog) {
         AlertDialog(
             onDismissRequest = {
@@ -122,6 +129,10 @@ fun EditTrabajoBody(
                         isError = state.nombreError != null,
                         supportingText = { state.nombreError?.let { Text(it) } },
                         modifier = Modifier.fillMaxWidth(),
+                        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
+                        keyboardActions = KeyboardActions(
+                            onNext = { focusManager.moveFocus(FocusDirection.Down) }
+                        ),
                         singleLine = true
                     )
 
@@ -131,7 +142,12 @@ fun EditTrabajoBody(
                         value = state.direccion,
                         onValueChange = { onEvent(EditTrabajoUiEvent.DireccionChanged(it)) },
                         label = { Text("Dirección (opcional)") },
-                        modifier = Modifier.fillMaxWidth()
+                        modifier = Modifier.fillMaxWidth(),
+                        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+                        keyboardActions = KeyboardActions(
+                            onDone = { focusManager.clearFocus() }
+                        ),
+                        singleLine = true
                     )
 
                     state.errorMessage?.let { message ->
