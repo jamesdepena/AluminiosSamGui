@@ -83,31 +83,34 @@ class EditTrabajoViewModel @Inject constructor(
             return
         }
 
+        val direccion = if (_state.value.direccion.isBlank()) {
+            null
+        } else {
+            _state.value.direccion.trim()
+        }
+
+        val trabajo = Trabajo(
+            trabajoId = _state.value.trabajoId ?: 0,
+            nombre = _state.value.nombre.trim(),
+            direccion = direccion
+        )
+
         viewModelScope.launch {
-            _state.update { it.copy(isSaving = true, errorMessage = null) }
+            _state.update {
+                it.copy(isSaving = true, errorMessage = null)
+            }
 
-            try {
-                val direccion = if (_state.value.direccion.isBlank()) {
-                    null
-                } else {
-                    _state.value.direccion.trim()
+            val result = upsertTrabajoUseCase(trabajo)
+
+            result.onSuccess {
+                _state.update {
+                    it.copy(isSaving = false, saved = true)
                 }
-
-                val trabajo = Trabajo(
-                    trabajoId = _state.value.trabajoId ?: 0,
-                    nombre = _state.value.nombre.trim(),
-                    direccion = direccion
-                )
-
-                upsertTrabajoUseCase(trabajo)
-                _state.update { it.copy(isSaving = false, saved = true) }
-
-            } catch (e: Exception) {
+            }.onFailure { error ->
                 _state.update {
                     it.copy(
                         isSaving = false,
-                        errorMessage = e.message
-                            ?: "No se pudo guardar el trabajo."
+                        errorMessage = error.message ?: "No se pudo guardar el trabajo."
                     )
                 }
             }
@@ -121,23 +124,17 @@ class EditTrabajoViewModel @Inject constructor(
             _state.update {
                 it.copy(
                     isDeleting = true,
-                    showDeleteDialog = false,
-                    errorMessage = null
+                    showDeleteDialog = false
                 )
             }
 
-            try {
-                deleteTrabajoUseCase(id)
-                _state.update { it.copy(isDeleting = false, deleted = true) }
+            deleteTrabajoUseCase(id)
 
-            } catch (e: Exception) {
-                _state.update {
-                    it.copy(
-                        isDeleting = false,
-                        errorMessage = e.message
-                            ?: "No se pudo eliminar el trabajo."
-                    )
-                }
+            _state.update {
+                it.copy(
+                    isDeleting = false,
+                    deleted = true
+                )
             }
         }
     }

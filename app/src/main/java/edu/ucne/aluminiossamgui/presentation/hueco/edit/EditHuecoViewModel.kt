@@ -235,16 +235,17 @@ class EditHuecoViewModel @Inject constructor(
                 it.copy(isSaving = true, errorMessage = null)
             }
 
-            try {
-                upsertHuecoUseCase(hueco)
+            val result = upsertHuecoUseCase(hueco)
+
+            result.onSuccess {
                 _state.update {
                     it.copy(isSaving = false, saved = true)
                 }
-            } catch (e: Exception) {
+            }.onFailure { error ->
                 _state.update {
                     it.copy(
                         isSaving = false,
-                        errorMessage = e.message ?: "No se pudo guardar el hueco."
+                        errorMessage = error.message ?: "No se pudo guardar el hueco."
                     )
                 }
             }
@@ -303,22 +304,17 @@ class EditHuecoViewModel @Inject constructor(
             _state.update {
                 it.copy(
                     isDeleting = true,
-                    showDeleteDialog = false,
-                    errorMessage = null
+                    showDeleteDialog = false
                 )
             }
 
-            try {
-                deleteHuecoUseCase(id)
-                _state.update { it.copy(isDeleting = false, deleted = true) }
+            deleteHuecoUseCase(id)
 
-            } catch (e: Exception) {
-                _state.update {
-                    it.copy(
-                        isDeleting = false,
-                        errorMessage = e.message ?: "No se pudo eliminar el hueco."
-                    )
-                }
+            _state.update {
+                it.copy(
+                    isDeleting = true,
+                    deleted = true
+                )
             }
         }
     }
