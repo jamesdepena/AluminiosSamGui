@@ -32,7 +32,7 @@ fun AppNavHost() {
 
             entry<Screen.TrabajoEdit> { key ->
                 EditTrabajoScreen(
-                    trabajo = key.id,
+                    trabajoId = key.id,
                     onBack = { if (backStack.size > 1) {
                             backStack.removeAt(backStack.size - 1)
                         }
