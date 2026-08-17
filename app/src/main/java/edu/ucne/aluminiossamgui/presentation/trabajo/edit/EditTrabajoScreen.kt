@@ -30,8 +30,11 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
@@ -59,7 +62,8 @@ fun EditTrabajoScreen(
     EditTrabajoBody(
         state = state,
         onEvent = viewModel::onEvent,
-        onBack = onBack
+        onBack = onBack,
+        requestInitialFocus = trabajoId == null || trabajoId == 0
     )
 }
 
@@ -68,9 +72,20 @@ fun EditTrabajoScreen(
 fun EditTrabajoBody(
     state: EditTrabajoUiState,
     onEvent: (EditTrabajoUiEvent) -> Unit,
-    onBack: () -> Unit
+    onBack: () -> Unit,
+    requestInitialFocus: Boolean
 ) {
     val focusManager = LocalFocusManager.current
+
+    val nombreFocusRequester = remember {
+        FocusRequester()
+    }
+
+    LaunchedEffect(requestInitialFocus) {
+        if (requestInitialFocus) {
+            nombreFocusRequester.requestFocus()
+        }
+    }
 
     if (state.showDeleteDialog) {
         AlertDialog(
@@ -128,7 +143,9 @@ fun EditTrabajoBody(
                         label = { Text("Nombre del trabajo") },
                         isError = state.nombreError != null,
                         supportingText = { state.nombreError?.let { Text(it) } },
-                        modifier = Modifier.fillMaxWidth(),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .focusRequester(nombreFocusRequester),
                         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
                         keyboardActions = KeyboardActions(
                             onNext = { focusManager.moveFocus(FocusDirection.Down) }
