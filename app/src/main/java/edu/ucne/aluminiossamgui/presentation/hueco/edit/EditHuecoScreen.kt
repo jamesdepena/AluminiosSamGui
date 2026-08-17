@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -38,6 +39,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
@@ -70,7 +75,8 @@ fun EditHuecoScreen(
     EditHuecoBody(
         state = state,
         onEvent = viewModel::onEvent,
-        onBack = onBack
+        onBack = onBack,
+        requestInitialFocus = huecoId == 0
     )
 }
 
@@ -79,13 +85,34 @@ fun EditHuecoScreen(
 fun EditHuecoBody(
     state: EditHuecoUiState,
     onEvent: (EditHuecoUiEvent) -> Unit,
-    onBack: () -> Unit
+    onBack: () -> Unit,
+    requestInitialFocus: Boolean
 ) {
+    val etiquetaFocusRequester = remember {
+        FocusRequester()
+    }
+
+    val anchoFocusRequester = remember {
+        FocusRequester()
+    }
+
+    val largoFocusRequester = remember {
+        FocusRequester()
+    }
+
+    val focusManager = LocalFocusManager.current
+
+    LaunchedEffect(requestInitialFocus) {
+        if (requestInitialFocus) {
+            etiquetaFocusRequester.requestFocus()
+        }
+    }
+
     if (state.showDeleteDialog) {
         AlertDialog(
             onDismissRequest = { onEvent(EditHuecoUiEvent.DismissDeleteDialog) },
             title = { Text("Eliminar hueco") },
-            text = { Text("¿Deseas eliminar este hueco?") },
+            text = { Text("Â¿Deseas eliminar este hueco?") },
             confirmButton = {
                 TextButton(
                     onClick = { onEvent(EditHuecoUiEvent.Delete) }
@@ -129,7 +156,14 @@ fun EditHuecoBody(
                 label = { Text("Etiqueta") },
                 isError = state.etiquetaError != null,
                 supportingText = { state.etiquetaError?.let { Text(it) } },
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .focusRequester(etiquetaFocusRequester),
+                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
+                keyboardActions = KeyboardActions(onNext = {
+                    anchoFocusRequester.requestFocus()
+                }
+                ),
                 singleLine = true
             )
 
@@ -148,20 +182,38 @@ fun EditHuecoBody(
                 value = state.anchoBase,
                 onValueChange = { onEvent(EditHuecoUiEvent.AnchoBaseChanged(it)) },
                 label = { Text("Ancho real del hueco ($unidad)") },
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Decimal,
+                    imeAction = ImeAction.Next
+                ),
+                keyboardActions = KeyboardActions(
+                    onNext = { largoFocusRequester.requestFocus() }
+                ),
                 isError = state.anchoBaseError != null,
                 supportingText = { state.anchoBaseError?.let { Text(it) } },
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .focusRequester(anchoFocusRequester),
+                singleLine = true
             )
 
             OutlinedTextField(
                 value = state.largoBase,
                 onValueChange = { onEvent(EditHuecoUiEvent.LargoBaseChanged(it)) },
                 label = { Text("Alto real del hueco ($unidad)") },
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Decimal,
+                    imeAction = ImeAction.Done
+                ),
+                keyboardActions = KeyboardActions(
+                    onDone = { focusManager.clearFocus() }
+                ),
                 isError = state.largoBaseError != null,
                 supportingText = { state.largoBaseError?.let { Text(it) } },
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .focusRequester(largoFocusRequester),
+                singleLine = true
             )
 
             when (state.tipo) {
@@ -229,7 +281,7 @@ private fun CorrederaFields(
             onCheckedChange = { onEvent(EditHuecoUiEvent.TresViasChanged(it)) }
         )
         Text(
-            text = "Corredera de tres vías",
+            text = "Corredera de tres vÃ­as",
             modifier = Modifier.padding(top = 12.dp)
         )
     }
@@ -250,14 +302,14 @@ private fun CorrederaFields(
             modifier = Modifier.fillMaxWidth()
         ) {
             Column(modifier = Modifier.padding(12.dp)) {
-                Text("Cálculo de corte")
+                Text("CÃ¡lculo de corte")
                 Text("Cabezal/riel: ${corte.cabezalYRielFijo}")
                 Text("Lateral: ${corte.lateral}")
                 Text("Alfeizal: ${corte.alfeizal}")
-                Text("Llavín/enganche: ${corte.llavinYEnganche}")
+                Text("LlavÃ­n/enganche: ${corte.llavinYEnganche}")
 
                 corte.tresViasAlf?.let {
-                    Text("Tres vías ALF: $it")
+                    Text("Tres vÃ­as ALF: $it")
                 }
             }
         }
@@ -298,7 +350,7 @@ private fun PuertaFields(
         )
     }
 
-    Text("Alto estándar de la puerta: 210 cm")
+    Text("Alto estÃ¡ndar de la puerta: 210 cm")
 }
 
 @Composable
@@ -325,13 +377,13 @@ private fun CristalFijoFields(
             modifier = Modifier.fillMaxWidth()
         ) {
             Column(modifier = Modifier.padding(12.dp)) {
-                Text("Cálculo de corte")
+                Text("CÃ¡lculo de corte")
                 Text(
-                    "Marco: ${corte.anchoMarco} × " +
+                    "Marco: ${corte.anchoMarco} Ã— " +
                             "${corte.largoMarco}"
                 )
                 Text(
-                    "Vidrio: ${corte.anchoVidrio} × " +
+                    "Vidrio: ${corte.anchoVidrio} Ã— " +
                             "${corte.largoVidrio}"
                 )
             }
@@ -396,7 +448,7 @@ private fun AnchoPuertaSelector(
     val values = AnchoPuerta.values()
 
     SimpleSelector(
-        label = "Ancho estándar",
+        label = "Ancho estÃ¡ndar",
         selected = value?.let { "${it.centimetros} cm" } ?: "Seleccionar",
         options = values.map { "${it.centimetros} cm" },
         onSelected = { index -> onValueChanged(values[index]) }
@@ -409,7 +461,7 @@ private fun AcabadoSelector(
     onValueChanged: (AcabadoPuerta) -> Unit
 ) {
     val values = AcabadoPuerta.values()
-    val labels = listOf("Lisa", "Diseño")
+    val labels = listOf("Lisa", "DiseÃ±o")
 
     SimpleSelector(
         label = "Acabado",
