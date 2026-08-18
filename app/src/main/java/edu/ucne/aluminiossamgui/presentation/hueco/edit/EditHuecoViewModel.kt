@@ -43,28 +43,23 @@ class EditHuecoViewModel @Inject constructor(
                     it.copy(etiqueta = event.value, etiquetaError = validation.errorMsg)
                 }
             }
-
             is EditHuecoUiEvent.TipoChanged -> onTipoChanged(event.value)
             is EditHuecoUiEvent.AnchoBaseChanged -> {
                 _state.update { it.copy(anchoBase = event.value, anchoBaseError = null) }
                 updateCalculations()
             }
-
             is EditHuecoUiEvent.LargoBaseChanged -> {
                 _state.update { it.copy(largoBase = event.value, largoBaseError = null) }
                 updateCalculations()
             }
-
             is EditHuecoUiEvent.TipoMaterialChanged -> {
                 _state.update { it.copy(tipoMaterial = event.value) }
                 updateCalculations()
             }
-
             is EditHuecoUiEvent.TresViasChanged -> {
                 _state.update { it.copy(esTresVias = event.value) }
                 updateCalculations()
             }
-
             is EditHuecoUiEvent.ColorChanged -> {
                 _state.update {
                     it.copy(
@@ -78,28 +73,22 @@ class EditHuecoViewModel @Inject constructor(
                     )
                 }
             }
-
             is EditHuecoUiEvent.ColorPersonalizadoChanged -> _state.update {
                 it.copy(colorPersonalizado = event.value)
             }
-
             is EditHuecoUiEvent.AnchoPuertaChanged -> _state.update {
                 it.copy(anchoPuerta = event.value)
             }
-
             is EditHuecoUiEvent.AcabadoPuertaChanged -> _state.update {
                 it.copy(acabadoPuerta = event.value)
             }
-
             is EditHuecoUiEvent.Save -> onSave()
             is EditHuecoUiEvent.ShowDeleteDialog -> _state.update {
                 it.copy(showDeleteDialog = true)
             }
-
             is EditHuecoUiEvent.DismissDeleteDialog -> _state.update {
                 it.copy(showDeleteDialog = false)
             }
-
             is EditHuecoUiEvent.Delete -> onDelete()
         }
     }
@@ -168,10 +157,7 @@ class EditHuecoViewModel @Inject constructor(
 
             if (hueco == null) {
                 _state.update {
-                    it.copy(
-                        trabajoId = trabajoId,
-                        errorMessage = "No se encontró el hueco."
-                    )
+                    it.copy(trabajoId = trabajoId, errorMessage = "No se encontró el hueco.")
                 }
                 return@launch
             }
@@ -302,19 +288,13 @@ class EditHuecoViewModel @Inject constructor(
 
         viewModelScope.launch {
             _state.update {
-                it.copy(
-                    isDeleting = true,
-                    showDeleteDialog = false
-                )
+                it.copy(isDeleting = true, showDeleteDialog = false)
             }
 
             deleteHuecoUseCase(id)
 
             _state.update {
-                it.copy(
-                    isDeleting = true,
-                    deleted = true
-                )
+                it.copy(isDeleting = true, deleted = true)
             }
         }
     }
