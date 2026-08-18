@@ -112,7 +112,7 @@ fun EditHuecoBody(
         AlertDialog(
             onDismissRequest = { onEvent(EditHuecoUiEvent.DismissDeleteDialog) },
             title = { Text("Eliminar hueco") },
-            text = { Text("Â¿Deseas eliminar este hueco?") },
+            text = { Text("¿Deseas eliminar este hueco?") },
             confirmButton = {
                 TextButton(
                     onClick = { onEvent(EditHuecoUiEvent.Delete) }
@@ -281,7 +281,7 @@ private fun CorrederaFields(
             onCheckedChange = { onEvent(EditHuecoUiEvent.TresViasChanged(it)) }
         )
         Text(
-            text = "Corredera de tres vÃ­as",
+            text = "Corredera de tres vías",
             modifier = Modifier.padding(top = 12.dp)
         )
     }
@@ -302,14 +302,14 @@ private fun CorrederaFields(
             modifier = Modifier.fillMaxWidth()
         ) {
             Column(modifier = Modifier.padding(12.dp)) {
-                Text("CÃ¡lculo de corte")
+                Text("Cálculo de corte")
                 Text("Cabezal/riel: ${corte.cabezalYRielFijo}")
                 Text("Lateral: ${corte.lateral}")
                 Text("Alfeizal: ${corte.alfeizal}")
-                Text("LlavÃ­n/enganche: ${corte.llavinYEnganche}")
+                Text("Llavín/enganche: ${corte.llavinYEnganche}")
 
                 corte.tresViasAlf?.let {
-                    Text("Tres vÃ­as ALF: $it")
+                    Text("Tres vías ALF: $it")
                 }
             }
         }
@@ -350,7 +350,7 @@ private fun PuertaFields(
         )
     }
 
-    Text("Alto estÃ¡ndar de la puerta: 210 cm")
+    Text("Alto estándar de la puerta: 210 cm")
 }
 
 @Composable
@@ -377,13 +377,13 @@ private fun CristalFijoFields(
             modifier = Modifier.fillMaxWidth()
         ) {
             Column(modifier = Modifier.padding(12.dp)) {
-                Text("CÃ¡lculo de corte")
+                Text("Cálculo de corte")
                 Text(
-                    "Marco: ${corte.anchoMarco} Ã— " +
+                    "Marco: ${corte.anchoMarco} × " +
                             "${corte.largoMarco}"
                 )
                 Text(
-                    "Vidrio: ${corte.anchoVidrio} Ã— " +
+                    "Vidrio: ${corte.anchoVidrio} × " +
                             "${corte.largoVidrio}"
                 )
             }
@@ -448,7 +448,7 @@ private fun AnchoPuertaSelector(
     val values = AnchoPuerta.values()
 
     SimpleSelector(
-        label = "Ancho estÃ¡ndar",
+        label = "Ancho estándar",
         selected = value?.let { "${it.centimetros} cm" } ?: "Seleccionar",
         options = values.map { "${it.centimetros} cm" },
         onSelected = { index -> onValueChanged(values[index]) }
@@ -461,7 +461,7 @@ private fun AcabadoSelector(
     onValueChanged: (AcabadoPuerta) -> Unit
 ) {
     val values = AcabadoPuerta.values()
-    val labels = listOf("Lisa", "DiseÃ±o")
+    val labels = listOf("Lisa", "Diseño")
 
     SimpleSelector(
         label = "Acabado",
