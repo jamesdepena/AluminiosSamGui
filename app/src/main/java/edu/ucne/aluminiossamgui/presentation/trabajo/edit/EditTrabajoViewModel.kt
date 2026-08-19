@@ -30,8 +30,17 @@ class EditTrabajoViewModel @Inject constructor(
         when (event) {
             is EditTrabajoUiEvent.Load -> onLoad(event.id)
             is EditTrabajoUiEvent.NombreChanged -> onNombreChanged(event.value)
+            is EditTrabajoUiEvent.NombreClienteChanged -> _state.update {
+                it.copy(nombreCliente = event.value)
+            }
+            is EditTrabajoUiEvent.TelefonoClienteChanged -> _state.update {
+                it.copy(telefonoCliente = event.value)
+            }
             is EditTrabajoUiEvent.DireccionChanged -> _state.update {
                 it.copy(direccion = event.value)
+            }
+            is EditTrabajoUiEvent.NotasChanged -> _state.update {
+                it.copy(notas = event.value)
             }
             is EditTrabajoUiEvent.Save -> onSave()
             is EditTrabajoUiEvent.ShowDeleteDialog -> _state.update {
@@ -64,7 +73,12 @@ class EditTrabajoViewModel @Inject constructor(
                         isNew = false,
                         trabajoId = trabajo.trabajoId,
                         nombre = trabajo.nombre,
-                        direccion = trabajo.direccion ?: ""
+                        nombreCliente = trabajo.nombreCliente ?: "",
+                        telefonoCliente = trabajo.telefonoCliente ?: "",
+                        direccion = trabajo.direccion ?: "",
+                        notas = trabajo.notas ?: "",
+                        saved = false,
+                        deleted = false
                     )
                 }
             } else {
@@ -83,16 +97,41 @@ class EditTrabajoViewModel @Inject constructor(
             return
         }
 
-        val direccion = if (_state.value.direccion.isBlank()) {
-            null
-        } else {
-            _state.value.direccion.trim()
-        }
+        val nombreCliente =
+            if (_state.value.nombreCliente.isBlank()) {
+                null
+            } else {
+                _state.value.nombreCliente.trim()
+            }
+
+        val telefonoCliente =
+            if (_state.value.telefonoCliente.isBlank()) {
+                null
+            } else {
+                _state.value.telefonoCliente.trim()
+            }
+
+        val direccion =
+            if (_state.value.direccion.isBlank()) {
+                null
+            } else {
+                _state.value.direccion.trim()
+            }
+
+        val notas =
+            if (_state.value.notas.isBlank()) {
+                null
+            } else {
+                _state.value.notas.trim()
+            }
 
         val trabajo = Trabajo(
             trabajoId = _state.value.trabajoId ?: 0,
             nombre = _state.value.nombre.trim(),
-            direccion = direccion
+            nombreCliente = nombreCliente,
+            telefonoCliente = telefonoCliente,
+            direccion = direccion,
+            notas = notas
         )
 
         viewModelScope.launch {
