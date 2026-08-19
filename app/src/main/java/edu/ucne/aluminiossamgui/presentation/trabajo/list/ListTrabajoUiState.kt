@@ -6,11 +6,26 @@ data class ListTrabajoUiState(
     val trabajos: List<Trabajo> = emptyList(),
     val filtroNombre: String = ""
 ) {
-    val filtradas: List<Trabajo>
+    val filtrados: List<Trabajo>
         get() = trabajos.filter { trabajo ->
             filtroNombre.isBlank() ||
-                    trabajo.nombre.contains(other = filtroNombre, ignoreCase = true)
+                    trabajo.nombre.contains(
+                        filtroNombre,
+                        ignoreCase = true
+                    ) ||
+                    trabajo.nombreCliente?.contains(
+                        filtroNombre,
+                        ignoreCase = true
+                    ) == true ||
+                    trabajo.telefonoCliente?.contains(
+                        filtroNombre,
+                        ignoreCase = true
+                    ) == true ||
+                    trabajo.direccion?.contains(
+                        filtroNombre,
+                        ignoreCase = true
+                    ) == true
         }
 
-    val totalTrabajos: Int get() = filtradas.size
+    val totalTrabajos: Int get() = filtrados.size
 }
