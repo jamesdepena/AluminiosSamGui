@@ -3,7 +3,10 @@ package edu.ucne.aluminiossamgui.presentation.trabajo.edit
 data class EditTrabajoUiState(
     val trabajoId: Int? = null,
     val nombre: String = "",
+    val nombreCliente: String = "",
+    val telefonoCliente: String = "",
     val direccion: String = "",
+    val notas: String = "",
 
     val nombreError: String? = null,
     val errorMessage: String? = null,
