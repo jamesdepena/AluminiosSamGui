@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.Logout
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Home
@@ -42,7 +43,8 @@ fun ListTrabajoScreen(
     viewModel: ListTrabajoViewModel = hiltViewModel(),
     createTrabajo: () -> Unit,
     goToTrabajo: (Int) -> Unit,
-    goToHuecos: (Int) -> Unit
+    goToHuecos: (Int) -> Unit,
+    onSignOut: () -> Unit
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
@@ -53,6 +55,7 @@ fun ListTrabajoScreen(
                 is ListTrabajoUiEvent.CreateNew -> createTrabajo()
                 is ListTrabajoUiEvent.Edit -> goToTrabajo(event.id)
                 is ListTrabajoUiEvent.OpenHuecos -> goToHuecos(event.trabajoId)
+                is ListTrabajoUiEvent.SignOut -> onSignOut()
                 else -> viewModel.onEvent(event)
             }
         }
@@ -68,7 +71,17 @@ fun ListTrabajoBody(
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
-                title = { Text("Trabajos") }
+                title = { Text("Trabajos") },
+                actions = {
+                    IconButton(
+                        onClick = { onEvent(ListTrabajoUiEvent.SignOut) }
+                    ) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.Logout,
+                            contentDescription = "Cerrar sesión"
+                        )
+                    }
+                }
             )
         },
         floatingActionButton = {
