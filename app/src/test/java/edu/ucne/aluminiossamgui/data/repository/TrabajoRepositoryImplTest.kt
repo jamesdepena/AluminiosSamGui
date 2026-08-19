@@ -36,7 +36,10 @@ class TrabajoRepositoryImplTest {
         val trabajo = Trabajo(
             trabajoId = 0,
             nombre = "Apartamento Familia Pérez",
-            direccion = "Santo Domingo"
+            nombreCliente = "Carlos Pérez",
+            telefonoCliente = "809-555-1234",
+            direccion = "Santo Domingo",
+            notas = "Llamar antes de realizar la visita."
         )
 
         val trabajoSlot = slot<TrabajoEntity>()
@@ -62,8 +65,20 @@ class TrabajoRepositoryImplTest {
             trabajoSlot.captured.nombre
         )
         assertEquals(
+            trabajo.nombreCliente,
+            trabajoSlot.captured.nombreCliente
+        )
+        assertEquals(
+            trabajo.telefonoCliente,
+            trabajoSlot.captured.telefonoCliente
+        )
+        assertEquals(
             trabajo.direccion,
             trabajoSlot.captured.direccion
+        )
+        assertEquals(
+            trabajo.notas,
+            trabajoSlot.captured.notas
         )
     }
 
@@ -73,7 +88,10 @@ class TrabajoRepositoryImplTest {
         val trabajo = Trabajo(
             trabajoId = 1,
             nombre = "Trabajo actualizado",
-            direccion = "Santiago"
+            nombreCliente = "María Rodríguez",
+            telefonoCliente = "829-555-4567",
+            direccion = "Santiago",
+            notas = "Instalar durante la mañana."
         )
 
         val trabajoSlot = slot<TrabajoEntity>()
@@ -98,7 +116,68 @@ class TrabajoRepositoryImplTest {
             "Trabajo actualizado",
             trabajoSlot.captured.nombre
         )
+        assertEquals(
+            "María Rodríguez",
+            trabajoSlot.captured.nombreCliente
+        )
+        assertEquals(
+            "829-555-4567",
+            trabajoSlot.captured.telefonoCliente
+        )
+        assertEquals(
+            "Santiago",
+            trabajoSlot.captured.direccion
+        )
+        assertEquals(
+            "Instalar durante la mañana.",
+            trabajoSlot.captured.notas
+        )
     }
+
+    @Test
+    fun `upsert guarda campos opcionales nulos correctamente`() =
+        runTest {
+            // Given
+            val trabajo = Trabajo(
+                trabajoId = 0,
+                nombre = "Trabajo sin datos opcionales",
+                nombreCliente = null,
+                telefonoCliente = null,
+                direccion = null,
+                notas = null
+            )
+
+            val trabajoSlot = slot<TrabajoEntity>()
+
+            coEvery {
+                dao.upsert(capture(trabajoSlot))
+            } just runs
+
+            // When
+            repository.upsert(trabajo)
+
+            // Then
+            coVerify(exactly = 1) {
+                dao.upsert(any())
+            }
+
+            assertEquals(
+                "Trabajo sin datos opcionales",
+                trabajoSlot.captured.nombre
+            )
+            assertNull(
+                trabajoSlot.captured.nombreCliente
+            )
+            assertNull(
+                trabajoSlot.captured.telefonoCliente
+            )
+            assertNull(
+                trabajoSlot.captured.direccion
+            )
+            assertNull(
+                trabajoSlot.captured.notas
+            )
+        }
 
     @Test
     fun `delete elimina trabajo correctamente`() = runTest {
@@ -125,12 +204,18 @@ class TrabajoRepositoryImplTest {
             TrabajoEntity(
                 trabajoId = 1,
                 nombre = "Trabajo 1",
-                direccion = "Dirección 1"
+                nombreCliente = "Carlos Pérez",
+                telefonoCliente = "809-555-1234",
+                direccion = "Dirección 1",
+                notas = "Primera nota"
             ),
             TrabajoEntity(
                 trabajoId = 2,
                 nombre = "Trabajo 2",
-                direccion = null
+                nombreCliente = null,
+                telefonoCliente = null,
+                direccion = null,
+                notas = null
             )
         )
 
@@ -145,18 +230,42 @@ class TrabajoRepositoryImplTest {
         assertEquals(2, result.size)
 
         assertEquals(
+            1,
+            result[0].trabajoId
+        )
+        assertEquals(
             "Trabajo 1",
             result[0].nombre
+        )
+        assertEquals(
+            "Carlos Pérez",
+            result[0].nombreCliente
+        )
+        assertEquals(
+            "809-555-1234",
+            result[0].telefonoCliente
         )
         assertEquals(
             "Dirección 1",
             result[0].direccion
         )
         assertEquals(
+            "Primera nota",
+            result[0].notas
+        )
+
+        assertEquals(
+            2,
+            result[1].trabajoId
+        )
+        assertEquals(
             "Trabajo 2",
             result[1].nombre
         )
+        assertNull(result[1].nombreCliente)
+        assertNull(result[1].telefonoCliente)
         assertNull(result[1].direccion)
+        assertNull(result[1].notas)
     }
 
     @Test
@@ -165,7 +274,10 @@ class TrabajoRepositoryImplTest {
         val entity = TrabajoEntity(
             trabajoId = 1,
             nombre = "Trabajo de prueba",
-            direccion = "La Vega"
+            nombreCliente = "Ana Gómez",
+            telefonoCliente = "829-555-1234",
+            direccion = "La Vega",
+            notas = "Instalación en horario de la mañana."
         )
 
         coEvery {
@@ -177,16 +289,62 @@ class TrabajoRepositoryImplTest {
 
         // Then
         assertNotNull(result)
-        assertEquals(1, result?.trabajoId)
+
+        assertEquals(
+            1,
+            result?.trabajoId
+        )
         assertEquals(
             "Trabajo de prueba",
             result?.nombre
         )
         assertEquals(
+            "Ana Gómez",
+            result?.nombreCliente
+        )
+        assertEquals(
+            "829-555-1234",
+            result?.telefonoCliente
+        )
+        assertEquals(
             "La Vega",
             result?.direccion
         )
+        assertEquals(
+            "Instalación en horario de la mañana.",
+            result?.notas
+        )
     }
+
+    @Test
+    fun `getById retorna trabajo con campos opcionales nulos`() =
+        runTest {
+            // Given
+            val entity = TrabajoEntity(
+                trabajoId = 2,
+                nombre = "Trabajo básico",
+                nombreCliente = null,
+                telefonoCliente = null,
+                direccion = null,
+                notas = null
+            )
+
+            coEvery {
+                dao.getById(2)
+            } returns entity
+
+            // When
+            val result = repository.getById(2)
+
+            // Then
+            assertNotNull(result)
+            assertEquals(2, result?.trabajoId)
+            assertEquals("Trabajo básico", result?.nombre)
+            assertNull(result?.nombreCliente)
+            assertNull(result?.telefonoCliente)
+            assertNull(result?.direccion)
+            assertNull(result?.notas)
+        }
 
     @Test
     fun `getById retorna null cuando trabajo no existe`() = runTest {
