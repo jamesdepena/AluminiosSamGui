@@ -37,6 +37,7 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -156,15 +157,69 @@ fun EditTrabajoBody(
                     Spacer(modifier = Modifier.height(8.dp))
 
                     OutlinedTextField(
+                        value = state.nombreCliente,
+                        onValueChange = {
+                            onEvent(EditTrabajoUiEvent.NombreClienteChanged(it))
+                        },
+                        label = { Text("Nombre del cliente (opcional)") },
+                        modifier = Modifier.fillMaxWidth(),
+                        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
+                        keyboardActions = KeyboardActions(
+                            onNext = { focusManager.moveFocus(FocusDirection.Down) }
+                        ),
+                        singleLine = true
+                    )
+
+                    Spacer(modifier = Modifier.height(8.dp))
+
+                    OutlinedTextField(
+                        value = state.telefonoCliente,
+                        onValueChange = {
+                            onEvent(EditTrabajoUiEvent.TelefonoClienteChanged(it))
+                        },
+                        label = { Text("Teléfono del cliente (opcional)") },
+                        modifier = Modifier.fillMaxWidth(),
+                        keyboardOptions = KeyboardOptions(
+                            keyboardType = KeyboardType.Phone,
+                            imeAction = ImeAction.Next
+                        ),
+                        keyboardActions = KeyboardActions(
+                            onNext = { focusManager.moveFocus(FocusDirection.Down) }
+                        ),
+                        singleLine = true
+                    )
+
+                    Spacer(modifier = Modifier.height(8.dp))
+
+                    OutlinedTextField(
                         value = state.direccion,
-                        onValueChange = { onEvent(EditTrabajoUiEvent.DireccionChanged(it)) },
+                        onValueChange = {
+                            onEvent(EditTrabajoUiEvent.DireccionChanged(it))
+                        },
                         label = { Text("Dirección (opcional)") },
+                        modifier = Modifier.fillMaxWidth(),
+                        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
+                        keyboardActions = KeyboardActions(
+                            onNext = { focusManager.moveFocus(FocusDirection.Down) }
+                        ),
+                        singleLine = true
+                    )
+
+                    Spacer(modifier = Modifier.height(8.dp))
+
+                    OutlinedTextField(
+                        value = state.notas,
+                        onValueChange = {
+                            onEvent(EditTrabajoUiEvent.NotasChanged(it))
+                        },
+                        label = { Text("Notas (opcional)") },
                         modifier = Modifier.fillMaxWidth(),
                         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
                         keyboardActions = KeyboardActions(
                             onDone = { focusManager.clearFocus() }
                         ),
-                        singleLine = true
+                        minLines = 3,
+                        maxLines = 5
                     )
 
                     state.errorMessage?.let { message ->
