@@ -6,4 +6,5 @@ sealed interface ListTrabajoUiEvent {
     data class FiltroNombreChanged(val value: String) : ListTrabajoUiEvent
     data object CreateNew : ListTrabajoUiEvent
     data object Load : ListTrabajoUiEvent
+    data object SignOut : ListTrabajoUiEvent
 }
