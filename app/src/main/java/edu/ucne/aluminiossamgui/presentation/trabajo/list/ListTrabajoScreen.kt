@@ -93,14 +93,14 @@ fun ListTrabajoBody(
             OutlinedTextField(
                 value = state.filtroNombre,
                 onValueChange = { onEvent(ListTrabajoUiEvent.FiltroNombreChanged(it)) },
-                label = { Text("Filtrar por nombre") },
+                label = { Text("Buscar trabajo o cliente") },
                 modifier = Modifier.fillMaxWidth(),
                 singleLine = true
             )
 
             Spacer(modifier = Modifier.height(12.dp))
 
-            if (state.filtradas.isEmpty()) {
+            if (state.filtrados.isEmpty()) {
                 Box(
                     modifier = Modifier
                         .weight(1f)
@@ -118,7 +118,7 @@ fun ListTrabajoBody(
                     verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
                     items(
-                        items = state.filtradas,
+                        items = state.filtrados,
                         key = { trabajo -> trabajo.trabajoId }
                     ) { trabajo ->
                         TrabajoItem(
@@ -174,6 +174,20 @@ fun TrabajoItem(
                     style = MaterialTheme.typography.titleSmall,
                     fontWeight = FontWeight.Bold
                 )
+
+                if (!trabajo.nombreCliente.isNullOrBlank()) {
+                    Text(
+                        text = "Cliente: ${trabajo.nombreCliente}",
+                        style = MaterialTheme.typography.bodySmall
+                    )
+                }
+
+                if (!trabajo.telefonoCliente.isNullOrBlank()) {
+                    Text(
+                        text = "Teléfono: ${trabajo.telefonoCliente}",
+                        style = MaterialTheme.typography.bodySmall
+                    )
+                }
 
                 if (!trabajo.direccion.isNullOrBlank()) {
                     Text(
