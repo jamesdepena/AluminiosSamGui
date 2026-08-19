@@ -4,6 +4,12 @@ Aplicación móvil para Android destinada a la gestión de trabajos realizados p
 
 La aplicación permite registrar trabajos, organizar los huecos o aberturas correspondientes a cada trabajo y calcular las medidas de corte según el tipo de material seleccionado.
 
+## Video demostrativo
+
+Puedes ver una explicación de la aplicación y sus funcionalidades en el siguiente video:
+
+[Ver video demostrativo en YouTube](https://youtu.be/ymiVY7C1wDE?si=jiA13LmqyRldkYZM)
+
 ## Funcionalidades principales
 
 - Inicio de sesión con una cuenta de Google mediante Firebase Authentication.
