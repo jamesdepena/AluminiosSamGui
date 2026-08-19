@@ -171,7 +171,7 @@ Reglas de cálculo:
 
 - El marco P40 utiliza las medidas exactas del hueco.
 - El vidrio utiliza un descuento de `1/4"` en el ancho y en el largo.
-- El grosor del vidrio es de `1/4"`.
+- El grosor del vidrio es de `1/4"`. 
 
 Ejemplo:
 
