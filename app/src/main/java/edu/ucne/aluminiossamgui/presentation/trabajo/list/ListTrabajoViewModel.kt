@@ -32,6 +32,7 @@ class ListTrabajoViewModel @Inject constructor(
             is ListTrabajoUiEvent.Edit -> Unit
             is ListTrabajoUiEvent.OpenHuecos -> Unit
             is ListTrabajoUiEvent.CreateNew -> Unit
+            is ListTrabajoUiEvent.SignOut -> Unit
         }
     }
 
