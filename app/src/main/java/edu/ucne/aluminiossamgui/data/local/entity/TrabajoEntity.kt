@@ -8,5 +8,8 @@ data class TrabajoEntity(
     @PrimaryKey(autoGenerate = true)
     val trabajoId: Int = 0,
     val nombre: String,
-    val direccion: String? = null
+    val nombreCliente: String? = null,
+    val telefonoCliente: String? = null,
+    val direccion: String? = null,
+    val notas: String? = null
 )

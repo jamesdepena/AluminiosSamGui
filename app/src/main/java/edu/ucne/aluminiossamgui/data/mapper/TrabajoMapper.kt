@@ -6,12 +6,18 @@ import edu.ucne.aluminiossamgui.domain.model.Trabajo
 fun TrabajoEntity.toDomain() = Trabajo(
     trabajoId = trabajoId,
     nombre = nombre,
-    direccion = direccion
+    nombreCliente = nombreCliente,
+    telefonoCliente = telefonoCliente,
+    direccion = direccion,
+    notas = notas
 )
 
 fun Trabajo.toEntity() = TrabajoEntity(
     trabajoId = trabajoId,
     nombre = nombre,
-    direccion = direccion
+    nombreCliente = nombreCliente,
+    telefonoCliente = telefonoCliente,
+    direccion = direccion,
+    notas = notas
 )
 
